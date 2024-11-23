@@ -1,0 +1,6 @@
+.env
+/src/vendor/
+postgres_data/
+.DS_Store
+node_modules/
+

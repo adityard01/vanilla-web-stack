@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  webserver:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html/
+    depends_on:
+      - db
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: myapp
+      DB_USERNAME: webuser
+      DB_PASSWORD: secret
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: webuser
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
